@@ -6,7 +6,20 @@
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
-_description_
+A collection of ESLint rules specifically targeted for roblox-ts.
+
+## Rules
+
+<!-- Do not manually modify this list. Run: `npm run eslint-docs` -->
+<!-- begin auto-generated rules list -->
+
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+
+| Name                                                                  | Description                                                                 | 🔧 |
+| :-------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :- |
+| [prefer-math-min-max](src/rules/prefer-math-min-max/documentation.md) | Prefer `math.min()` and `math.max()` over ternaries for simple comparisons. | 🔧 |
+
+<!-- end auto-generated rules list -->
 
 ## License
 
