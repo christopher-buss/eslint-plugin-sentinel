@@ -54,3 +54,11 @@ math.max(height, 50); // ✅
 height <= 50 ? 50 : height; // ❌
 math.max(height, 50); // ✅
 ```
+
+## Credits
+
+This rule is inspired by the
+[prefer-math-min-max](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-math-min-max.md)
+rule from the
+[eslint-plugin-unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn/)
+package.
