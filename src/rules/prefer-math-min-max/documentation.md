@@ -60,5 +60,4 @@ math.max(height, 50); // ✅
 This rule is inspired by the
 [prefer-math-min-max](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-math-min-max.md)
 rule from the
-[eslint-plugin-unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn/)
-package.
+[unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn) ESLint plugin.

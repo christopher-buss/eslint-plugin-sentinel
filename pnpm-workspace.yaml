@@ -36,3 +36,4 @@ catalogs:
 onlyBuiltDependencies:
   - esbuild
   - simple-git-hooks
+  - unrs-resolver
