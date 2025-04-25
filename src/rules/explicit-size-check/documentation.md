@@ -16,11 +16,11 @@ const isEmpty = !foo.size();
 ```
 
 ```js
-const isEmpty = foo.size() === 0;
+const isEmpty = foo.size() < 1;
 ```
 
 ```js
-const isEmpty = foo.size() < 1;
+const isEmpty = 0 === foo.size();
 ```
 
 ```js
