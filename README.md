@@ -13,11 +13,13 @@ A collection of ESLint rules specifically targeted for roblox-ts.
 <!-- Do not manually modify this list. Run: `npm run eslint-docs` -->
 <!-- begin auto-generated rules list -->
 
-🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
+💡 Manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 
-| Name                                                                  | Description                                                                 | 🔧 |
-| :-------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :- |
-| [prefer-math-min-max](src/rules/prefer-math-min-max/documentation.md) | Prefer `math.min()` and `math.max()` over ternaries for simple comparisons. | 🔧 |
+| Name                                                                  | Description                                                                 | 🔧 | 💡 |
+| :-------------------------------------------------------------------- | :-------------------------------------------------------------------------- | :- | :- |
+| [explicit-size-check](src/rules/explicit-size-check/documentation.md) | Enforce explicitly comparing the `size` property of a value.                | 🔧 | 💡 |
+| [prefer-math-min-max](src/rules/prefer-math-min-max/documentation.md) | Prefer `math.min()` and `math.max()` over ternaries for simple comparisons. | 🔧 |    |
 
 <!-- end auto-generated rules list -->
 
