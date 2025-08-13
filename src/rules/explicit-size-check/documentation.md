@@ -1,11 +1,15 @@
 # Enforce explicitly comparing the `size` property of a value
 
-🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+🔧💡 This rule is automatically fixable by the
+[`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix)
+and manually fixable by
+[editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 
 <!-- end auto-generated rule header -->
 <!-- Do not manually modify this header. Run: `npm run eslint-docs` -->
 
-This rule is only meant to enforce a specific style and make comparisons more clear.
+This rule is only meant to enforce a specific style and make comparisons more
+clear.
 
 This rule is fixable, unless it's [unsafe to fix](#unsafe-to-fix-case).
 
@@ -13,7 +17,7 @@ This rule is fixable, unless it's [unsafe to fix](#unsafe-to-fix-case).
 
 Enforce comparison with `=== 0` when checking for zero size.
 
-### Fail
+### Zero comparison failures
 
 ```js
 const isEmpty = !foo.size();
@@ -40,7 +44,7 @@ const isEmpty = !(foo.size() > 0);
 const isEmptySet = !foo.size();
 ```
 
-### Pass
+### Zero comparison successes
 
 ```js
 const isEmpty = foo.size() === 0;
@@ -50,7 +54,7 @@ const isEmpty = foo.size() === 0;
 
 Enforce comparison with `> 0` when checking for non-zero size.
 
-### Fail
+### Non-zero comparison failures
 
 ```js
 const isNotEmpty = foo.size() !== 0;
@@ -78,7 +82,8 @@ const isNotEmpty = !(foo.size() === 0);
 ```
 
 ```js
-if (foo.size() || bar.size()) {}
+if (foo.size() || bar.size()) {
+}
 ```
 
 ```js
@@ -94,29 +99,31 @@ do {} while (foo.size());
 ```
 
 ```js
-for (; foo.size(); ) {};
+while (foo.size()) {}
 ```
 
-### Pass
+### Non-zero comparison successes
 
 ```js
 const isNotEmpty = foo.size() > 0;
 ```
 
 ```js
-if (foo.size() > 0 || bar.size() > 0) {}
+if (foo.size() > 0 || bar.size() > 0) {
+}
 ```
 
 ### Options
 
-You can define your preferred way of checking non-zero size by providing a `non-zero` option (`greater-than` by default):
+You can define your preferred way of checking non-zero size by providing a
+`non-zero` option (`greater-than` by default):
 
-```js
+```json
 {
-	'sentinel/explicit-size-check': [
-		'error',
+	"sentinel/explicit-size-check": [
+		"error",
 		{
-			'non-zero': 'not-equal'
+			"non-zero": "not-equal"
 		}
 	]
 }
@@ -125,9 +132,9 @@ You can define your preferred way of checking non-zero size by providing a `non-
 The `non-zero` option can be configured with one of the following:
 
 - `greater-than` (default)
-  - Enforces non-zero to be checked with: `foo.size() > 0`
+    - Enforces non-zero to be checked with: `foo.size() > 0`
 - `not-equal`
-  - Enforces non-zero to be checked with: `foo.size() !== 0`
+    - Enforces non-zero to be checked with: `foo.size() !== 0`
 
 ## Unsafe to fix case
 
@@ -138,15 +145,21 @@ Example:
 ```js
 const bothNotEmpty = (a, b) => a.size() && b.size();
 
-if (bothNotEmpty(foo, bar)) {}
+if (bothNotEmpty(foo, bar)) {
+}
 ```
 
-In this case, the `bothNotEmpty` function returns a `number`, but it will most likely be used as a `boolean`. The rule will still report this as an error, but without an auto-fix. You can apply a [suggestion](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions) in your editor, which will fix it to:
+In this case, the `bothNotEmpty` function returns a `number`, but it will most
+likely be used as a `boolean`. The rule will still report this as an error, but
+without an auto-fix. You can apply a
+[suggestion](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions)
+in your editor, which will fix it to:
 
 ```js
 const bothNotEmpty = (a, b) => a.size() > 0 && b.size() > 0;
 
-if (bothNotEmpty(foo, bar)) {}
+if (bothNotEmpty(foo, bar)) {
+}
 ```
 
 The rule is smart enough to know some `LogicalExpression`s are safe to fix, like
@@ -155,5 +168,6 @@ when it's inside `if`, `while`, etc.
 ## Credits
 
 This rule is inspired by the
-[explicit-length-check](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md) rule from the
-[unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn) ESLint plugin.
+[explicit-length-check](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md)
+rule from the [unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
+ESLint plugin.

@@ -2,12 +2,7 @@
 	"name": "eslint-plugin-sentinel",
 	"version": "0.1.1",
 	"description": "A collection of ESLint rules specifically targeted for roblox-ts.",
-	"keywords": [
-		"roblox",
-		"roblox-ts",
-		"eslint-plugin",
-		"rbxts"
-	],
+	"keywords": ["roblox", "roblox-ts", "eslint-plugin", "rbxts"],
 	"homepage": "https://github.com/christopher-buss/eslint-plugin-sentinel#readme",
 	"bugs": "https://github.com/christopher-buss/eslint-plugin-sentinel/issues",
 	"repository": {
@@ -25,9 +20,7 @@
 	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build": "unbuild",
 		"dev": "unbuild --stub",
@@ -49,6 +42,9 @@
 	"resolutions": {
 		"eslint-plugin-sentinel": "workspace:*"
 	},
+	"dependencies": {
+		"eslint-plugin-eslint-plugin": "catalog:testing"
+	},
 	"devDependencies": {
 		"@antfu/ni": "catalog:cli",
 		"@antfu/utils": "catalog:inlined",
@@ -57,10 +53,12 @@
 		"@typescript-eslint/parser": "catalog:cli",
 		"@typescript-eslint/rule-tester": "catalog:testing",
 		"@typescript-eslint/utils": "catalog:cli",
+		"@vitest/eslint-plugin": "catalog:testing",
 		"bumpp": "catalog:cli",
 		"eslint": "catalog:cli",
 		"eslint-doc-generator": "catalog:utils",
 		"eslint-plugin-pnpm": "catalog:cli",
+		"eslint-plugin-sentinel": "workspace:*",
 		"eslint-vitest-rule-tester": "catalog:testing",
 		"jiti": "catalog:cli",
 		"lint-staged": "catalog:cli",
@@ -76,5 +74,8 @@
 	"peerDependencies": {
 		"eslint": "*"
 	},
-	"packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f"
+	"packageManager": "pnpm@10.14.0",
+	"engines": {
+		"node": ">=20.0.0"
+	}
 }

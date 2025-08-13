@@ -468,7 +468,8 @@ export const explicitSizeCheckRule = createEslintRule({
 	defaultOptions: [{}],
 	meta: {
 		docs: {
-			description: "Enforce explicitly comparing the `size` property of a value.",
+			description: "Enforce explicitly comparing the `size` property of a value",
+			recommended: false,
 		},
 		fixable: "code",
 		hasSuggestions: true,

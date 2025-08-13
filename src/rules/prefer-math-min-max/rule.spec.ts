@@ -17,49 +17,49 @@ const valid: Array<ValidTestCase> = [
 const invalid: Array<InvalidTestCase> = [
 	{
 		code: "height > 50 ? 50 : height;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.min(height, 50);"');
 		},
 	},
 	{
 		code: "height >= 50 ? 50 : height;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.min(height, 50);"');
 		},
 	},
 	{
 		code: "height < 50 ? height : 50;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.min(height, 50);"');
 		},
 	},
 	{
 		code: "height <= 50 ? height : 50;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.min(height, 50);"');
 		},
 	},
 	{
 		code: "height > 50 ? height : 50;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.max(height, 50);"');
 		},
 	},
 	{
 		code: "height >= 50 ? height : 50;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.max(height, 50);"');
 		},
 	},
 	{
 		code: "height < 50 ? 50 : height;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.max(height, 50);"');
 		},
 	},
 	{
 		code: "height <= 50 ? 50 : height;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"math.max(height, 50);"');
 		},
 	},

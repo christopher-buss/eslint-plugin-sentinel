@@ -1,9 +1,14 @@
 import { RuleCreator } from "@typescript-eslint/utils/eslint-utils";
 
+import { repository, version } from "../package.json";
+
 export interface PluginDocumentation {
 	description: string;
+	recommended?: boolean;
+	requiresTypeChecking: boolean;
 }
 
-export const createEslintRule = RuleCreator<PluginDocumentation>(name => {
-	return `https://github.com/your/eslint-plugin-sentinel/tree/main/src/rules/${name}/documentation.md`;
+export const createEslintRule = RuleCreator<PluginDocumentation>((name) => {
+	const repoUrl = repository.url.replace(/\.git$/, "");
+	return `${repoUrl}/tree/v${version}/docs/rules/${name}.md`;
 });

@@ -53,7 +53,7 @@ export const preferMathMinMaxRule = createEslintRule({
 					right,
 					alternate,
 					consequent,
-				].map(node => getExpressionText(node, context.sourceCode));
+				].map((node) => getExpressionText(node, context.sourceCode));
 
 				const isGreaterOrEqual = operator === ">" || operator === ">=";
 				const isLessOrEqual = operator === "<" || operator === "<=";
@@ -88,10 +88,7 @@ export const preferMathMinMaxRule = createEslintRule({
 				for (const node of [left, right]) {
 					let expressionNode = node;
 
-					if (
-						"typeAnnotation" in expressionNode &&
-						expressionNode.type === AST_NODE_TYPES.TSAsExpression
-					) {
+					if (expressionNode.type === AST_NODE_TYPES.TSAsExpression) {
 						// Ignore if the test is not a number comparison operator
 						if (!isNumberTypeAnnotation(expressionNode.typeAnnotation)) {
 							return;
@@ -104,7 +101,7 @@ export const preferMathMinMaxRule = createEslintRule({
 					if (expressionNode.type === AST_NODE_TYPES.Identifier) {
 						const variable = context.sourceCode
 							.getScope(expressionNode)
-							.variables.find(variable_ => variable_.name === expressionNode.name);
+							.variables.find((variable_) => variable_.name === expressionNode.name);
 
 						for (const definition of variable?.defs ?? []) {
 							if (definition.type === Scope.DefinitionType.Parameter) {
@@ -181,7 +178,7 @@ export const preferMathMinMaxRule = createEslintRule({
 						const { sourceCode } = context;
 
 						const argumentsText = [left, right]
-							.map(node => {
+							.map((node) => {
 								return node.type === AST_NODE_TYPES.SequenceExpression
 									? `(${sourceCode.getText(node)})`
 									: sourceCode.getText(node);
@@ -203,7 +200,8 @@ export const preferMathMinMaxRule = createEslintRule({
 	meta: {
 		docs: {
 			description:
-				"Prefer `math.min()` and `math.max()` over ternaries for simple comparisons.",
+				"Require `math.min()` and `math.max()` over ternaries for simple comparisons",
+			recommended: false,
 		},
 		fixable: "code",
 		messages: {

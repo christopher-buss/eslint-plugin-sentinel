@@ -158,43 +158,43 @@ const invalid: Array<InvalidTestCase> = [
 	}),
 	{
 		code: "if (foo.bar && foo.bar.size()) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.bar && foo.bar.size() > 0) {}"');
 		},
 	},
 	{
 		code: "if (foo.size() || foo.bar()) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.size() > 0 || foo.bar()) {}"');
 		},
 	},
 	{
 		code: "if (!!(!!foo.size())) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.size() > 0) {}"');
 		},
 	},
 	{
 		code: "if (!(foo.size() === 0)) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.size() > 0) {}"');
 		},
 	},
 	{
 		code: "while (foo.size() >= 1) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"while (foo.size() > 0) {}"');
 		},
 	},
 	{
 		code: "do {} while (foo.size());",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"do {} while (foo.size() > 0);"');
 		},
 	},
 	{
 		code: "for (let i = 0; (bar && !foo.size()); i ++) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot(
 				'"for (let i = 0; (bar && foo.size() === 0); i ++) {}"',
 			);
@@ -202,49 +202,49 @@ const invalid: Array<InvalidTestCase> = [
 	},
 	{
 		code: "const isEmpty = foo.size() < 1;",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"const isEmpty = foo.size() === 0;"');
 		},
 	},
 	{
 		code: "bar(foo.size() >= 1)",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"bar(foo.size() > 0)"');
 		},
 	},
 	{
 		code: "const bar = void !foo.size();",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"const bar = void (foo.size() === 0);"');
 		},
 	},
 	{
 		code: "if (foo.size()) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.size() > 0) {}"');
 		},
 	},
 	{
 		code: "if (foo.size() && bar.size()) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if (foo.size() > 0 && bar.size() > 0) {}"');
 		},
 	},
 	{
 		code: "function foo() {return!foo.size()}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"function foo() {return foo.size() === 0}"');
 		},
 	},
 	{
 		code: "function foo() {throw!foo.size()}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"function foo() {throw foo.size() === 0}"');
 		},
 	},
 	{
 		code: "async function foo() {await!foo.size()}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot(
 				'"async function foo() {await (foo.size() === 0)}"',
 			);
@@ -252,73 +252,73 @@ const invalid: Array<InvalidTestCase> = [
 	},
 	{
 		code: "function * foo() {yield!foo.size()}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"function * foo() {yield foo.size() === 0}"');
 		},
 	},
 	{
 		code: "function * foo() {yield*!foo.size()}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"function * foo() {yield*foo.size() === 0}"');
 		},
 	},
 	{
 		code: "delete!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"delete (foo.size() === 0)"');
 		},
 	},
 	{
 		code: "typeof!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"typeof (foo.size() === 0)"');
 		},
 	},
 	{
 		code: "void!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"void (foo.size() === 0)"');
 		},
 	},
 	{
 		code: "a instanceof!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"a instanceof foo.size() === 0"');
 		},
 	},
 	{
 		code: "a in!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"a in foo.size() === 0"');
 		},
 	},
 	{
 		code: "export default!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"export default foo.size() === 0"');
 		},
 	},
 	{
 		code: "if(true){}else!foo.size()",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"if(true){}else foo.size() === 0"');
 		},
 	},
 	{
 		code: "do!foo.size();while(true) {}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"do foo.size() === 0;while(true) {}"');
 		},
 	},
 	{
 		code: "switch(foo){case!foo.size():{}}",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"switch(foo){case foo.size() === 0:{}}"');
 		},
 	},
 	{
 		code: "for(const a of !foo.size());",
-		output: output => {
+		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"for(const a of foo.size() === 0);"');
 		},
 	},

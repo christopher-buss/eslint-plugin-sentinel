@@ -23,12 +23,5 @@
 	],
 
 	// Enable eslint for all supported languages
-	"eslint.validate": [
-		"typescript",
-		"typescriptreact",
-		"markdown",
-		"json",
-		"jsonc",
-		"yaml"
-	]
+	"eslint.validate": ["typescript", "typescriptreact", "markdown", "json", "jsonc", "yaml"]
 }
