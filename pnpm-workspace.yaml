@@ -16,9 +16,9 @@ catalogs:
     jiti: 2.5.1
     lint-staged: ^16.1.5
     simple-git-hooks: ^2.13.1
+    tsdown: ^0.14.1
     tsx: ^4.20.4
     typescript: 5.8.3
-    unbuild: ^3.6.0
     vite: ^7.1.2
   inlined:
     "@antfu/utils": ^9.2.0
@@ -33,7 +33,9 @@ catalogs:
     "@types/node": ^24.2.1
   utils:
     eslint-doc-generator: 2.2.2
+    publint: ^0.3.12
     tinyexec: ^1.0.1
+    unplugin-unused: ^0.5.1
 
 onlyBuiltDependencies:
   - esbuild

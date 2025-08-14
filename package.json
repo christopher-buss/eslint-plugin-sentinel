@@ -22,8 +22,8 @@
 	"types": "./dist/index.d.mts",
 	"files": ["dist"],
 	"scripts": {
-		"build": "unbuild",
-		"dev": "unbuild --stub",
+		"build": "tsdown --clean --dts",
+		"dev": "tsdown --stub",
 		"eslint-docs": "eslint-doc-generator",
 		"lint": "eslint",
 		"prepare": "simple-git-hooks",
@@ -42,9 +42,6 @@
 	"resolutions": {
 		"eslint-plugin-sentinel": "workspace:*"
 	},
-	"dependencies": {
-		"eslint-plugin-eslint-plugin": "catalog:testing"
-	},
 	"devDependencies": {
 		"@antfu/ni": "catalog:cli",
 		"@antfu/utils": "catalog:inlined",
@@ -57,22 +54,26 @@
 		"bumpp": "catalog:cli",
 		"eslint": "catalog:cli",
 		"eslint-doc-generator": "catalog:utils",
+		"eslint-plugin-eslint-plugin": "catalog:testing",
 		"eslint-plugin-pnpm": "catalog:cli",
 		"eslint-plugin-sentinel": "workspace:*",
 		"eslint-vitest-rule-tester": "catalog:testing",
 		"jiti": "catalog:cli",
 		"lint-staged": "catalog:cli",
+		"publint": "catalog:utils",
 		"simple-git-hooks": "catalog:cli",
 		"tinyexec": "catalog:utils",
+		"tsdown": "catalog:cli",
 		"tsx": "catalog:cli",
 		"typescript": "catalog:cli",
-		"unbuild": "catalog:cli",
+		"unplugin-unused": "catalog:utils",
 		"vite": "catalog:cli",
 		"vitest": "catalog:testing",
 		"yaml": "catalog:testing"
 	},
 	"peerDependencies": {
-		"eslint": "*"
+		"eslint": "*",
+		"typescript": ">=4.7.0"
 	},
 	"packageManager": "pnpm@10.14.0",
 	"engines": {
