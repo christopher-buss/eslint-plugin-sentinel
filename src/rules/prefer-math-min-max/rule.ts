@@ -202,6 +202,7 @@ export const preferMathMinMaxRule = createEslintRule({
 			description:
 				"Require `math.min()` and `math.max()` over ternaries for simple comparisons",
 			recommended: false,
+			requiresTypeChecking: false,
 		},
 		fixable: "code",
 		messages: {

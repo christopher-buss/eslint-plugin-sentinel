@@ -1,10 +1,16 @@
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, type TSESTree } from "@typescript-eslint/utils";
+import {
+	AST_NODE_TYPES,
+	AST_TOKEN_TYPES,
+	type ParserServices,
+	type TSESTree,
+} from "@typescript-eslint/utils";
 import {
 	getStaticValue,
 	isClosingParenToken,
 	isOpeningParenToken,
 	isParenthesized,
 } from "@typescript-eslint/utils/ast-utils";
+import { getParserServices } from "@typescript-eslint/utils/eslint-utils";
 import type {
 	RuleContext,
 	RuleFix,
@@ -14,6 +20,7 @@ import type {
 } from "@typescript-eslint/utils/ts-eslint";
 
 import assert from "node:assert";
+import { SignatureKind, type TypeChecker, TypePredicateKind } from "typescript";
 
 import { createEslintRule } from "../../util";
 import { reportProblems } from "./util";
@@ -158,6 +165,8 @@ function create(
 	}
 
 	const { sourceCode } = context;
+	const parserServices = getParserServices(context);
+	const checker = parserServices.program.getTypeChecker();
 
 	function getProblem({
 		autoFix,
@@ -269,7 +278,7 @@ function create(
 				}
 			} else {
 				const { isNegative, node: ancestor } = getBooleanAncestor(sizeCallNode);
-				if (isBooleanNode(ancestor)) {
+				if (isBooleanNode(ancestor, parserServices, checker)) {
 					isZeroLengthCheck = isNegative;
 					node = ancestor;
 				} else if (
@@ -368,6 +377,25 @@ function getSizeCheckNode(
 	return undefined;
 }
 
+function isAssertionFunction(
+	node: TSESTree.CallExpression,
+	services: ParserServices,
+	checker: TypeChecker,
+): boolean {
+	const tsNode = services.esTreeNodeToTSNodeMap.get(node.callee);
+	const nodeType = checker.getTypeAtLocation(tsNode);
+	const signatures = checker.getSignaturesOfType(nodeType, SignatureKind.Call);
+
+	return signatures.some((signature) => {
+		const typePredicateInfo = checker.getTypePredicateOfSignature(signature);
+		if (!typePredicateInfo) {
+			return false;
+		}
+
+		return typePredicateInfo.kind === TypePredicateKind.AssertsIdentifier;
+	});
+}
+
 function isBooleanCall(node: TSESTree.Node): boolean {
 	return (
 		isCallExpression(node) &&
@@ -386,7 +414,11 @@ function isBooleanCallArgument(node: TSESTree.Node): boolean {
 	);
 }
 
-function isBooleanNode(node: TSESTree.Node): boolean {
+function isBooleanNode(
+	node: TSESTree.Node,
+	services: ParserServices,
+	checker: TypeChecker,
+): boolean {
 	if (
 		isLogicNot(node) ||
 		isLogicNotArgument(node) ||
@@ -412,8 +444,17 @@ function isBooleanNode(node: TSESTree.Node): boolean {
 		return true;
 	}
 
+	// Check if node is an argument to an assertion function
+	if (
+		parent.type === AST_NODE_TYPES.CallExpression &&
+		parent.arguments[0] === node &&
+		isAssertionFunction(parent, services, checker)
+	) {
+		return true;
+	}
+
 	if (isLogicalExpression(parent)) {
-		return isBooleanNode(parent);
+		return isBooleanNode(parent, services, checker);
 	}
 
 	return false;
@@ -470,6 +511,7 @@ export const explicitSizeCheckRule = createEslintRule({
 		docs: {
 			description: "Enforce explicitly comparing the `size` property of a value",
 			recommended: false,
+			requiresTypeChecking: true,
 		},
 		fixable: "code",
 		hasSuggestions: true,

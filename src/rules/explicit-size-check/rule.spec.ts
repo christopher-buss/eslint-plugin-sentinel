@@ -109,6 +109,72 @@ const valid: Array<ValidTestCase> = [
 	// Logical OR
 	"const x = foo.size() || 2",
 	"const A_NUMBER = 2; const x = foo.size() || A_NUMBER",
+	unindent`
+		declare function assert(condition: any): asserts condition;
+		assert(data.blobs.size() > 0);
+	`,
+	unindent`
+		declare function assert(condition: any): asserts condition;
+		assert(data.blobs.size() === 0);
+	`,
+	unindent`
+		function assertDefined<T>(value: T | undefined): asserts value is T {
+			if (value === undefined) throw new Error('Value is undefined');
+		}
+		assertDefined(data.blobs.size() > 0);
+	`,
+	unindent`
+		function assertIsNonEmpty(value: number): asserts value {
+			if (!value) throw new Error('Value is empty');
+		}
+		assertIsNonEmpty(data.blobs.size() > 0);
+	`,
+	unindent`
+		const utils = {
+			assert(condition: any): asserts condition {
+				if (!condition) throw new Error('Assertion failed');
+			}
+		};
+		utils.assert(data.blobs.size() > 0);
+	`,
+	unindent`
+		class AssertionHelper {
+			static check(condition: any): asserts condition {
+				if (!condition) throw new Error('Check failed');
+			}
+		}
+		AssertionHelper.check(data.blobs.size() === 0);
+	`,
+	unindent`
+		class Collection {
+			private items: any[] = [];
+			
+			size(): number {
+				return this.items.length;
+			}
+			
+			assertNotEmpty(): asserts this {
+				if (this.size() === 0) throw new Error('Collection is empty');
+			}
+		}
+		const col = new Collection();
+		col.assertNotEmpty();
+	`,
+	unindent`
+		class DataContainer {
+			data?: string[];
+			
+			size(): number {
+				return this.data?.length ?? 0;
+			}
+			
+			assertHasData(): asserts this is DataContainer & { data: string[] } {
+				if (this.size() === 0) throw new Error('No data');
+			}
+		}
+		const container = new DataContainer();
+		container.assertHasData();
+	`,
 ];
 
 const invalid: Array<InvalidTestCase> = [
@@ -320,6 +386,155 @@ const invalid: Array<InvalidTestCase> = [
 		code: "for(const a of !foo.size());",
 		output: (output) => {
 			expect(output).toMatchInlineSnapshot('"for(const a of foo.size() === 0);"');
+		},
+	},
+	{
+		code: unindent`
+			declare function assert(condition: any): asserts condition;
+			assert(data.blobs.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"declare function assert(condition: any): asserts condition;
+				assert(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			declare function assert(condition: any): asserts condition;
+			assert(foo.size() && bar.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"declare function assert(condition: any): asserts condition;
+				assert(foo.size() > 0 && bar.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			declare function assert(condition: any): asserts condition;
+			assert(data.blobs.size() !== 0);
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"declare function assert(condition: any): asserts condition;
+				assert(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			function assertDefined<T>(value: T | undefined): asserts value is T {
+				if (value === undefined) throw new Error('Value is undefined');
+			}
+			assertDefined(data.blobs.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"function assertDefined<T>(value: T | undefined): asserts value is T {
+					if (value === undefined) throw new Error('Value is undefined');
+				}
+				assertDefined(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			function assertIsNonEmpty(value: number): asserts value {
+				if (!value) throw new Error('Value is empty');
+			}
+			assertIsNonEmpty(data.blobs.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"function assertIsNonEmpty(value: number): asserts value {
+					if (!value) throw new Error('Value is empty');
+				}
+				assertIsNonEmpty(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			const utils = {
+				assert(condition: any): asserts condition {
+					if (!condition) throw new Error('Assertion failed');
+				}
+			};
+			utils.assert(data.blobs.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"const utils = {
+					assert(condition: any): asserts condition {
+						if (!condition) throw new Error('Assertion failed');
+					}
+				};
+				utils.assert(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	{
+		code: unindent`
+			class AssertionHelper {
+				static check(condition: any): asserts condition {
+					if (!condition) throw new Error('Check failed');
+				}
+			}
+			AssertionHelper.check(data.blobs.size());
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"class AssertionHelper {
+					static check(condition: any): asserts condition {
+						if (!condition) throw new Error('Check failed');
+					}
+				}
+				AssertionHelper.check(data.blobs.size() > 0);"
+			`);
+		},
+	},
+	// AssertsThis pattern tests (invalid - should be transformed)
+	{
+		code: unindent`
+			class Collection {
+				private items: any[] = [];
+				
+				size(): number {
+					return this.items.length;
+				}
+				
+				assertNotEmpty(): asserts this {
+					if (this.size() === 0) throw new Error('Collection is empty');
+				}
+			}
+			const col = new Collection();
+			col.assertNotEmpty();
+			if (col.size()) {
+				// This should be flagged and fixed
+			}
+		`,
+		output: (output) => {
+			expect(output).toMatchInlineSnapshot(unindent`
+				"class Collection {
+					private items: any[] = [];
+					
+					size(): number {
+						return this.items.length;
+					}
+					
+					assertNotEmpty(): asserts this {
+						if (this.size() === 0) throw new Error('Collection is empty');
+					}
+				}
+				const col = new Collection();
+				col.assertNotEmpty();
+				if (col.size() > 0) {
+					// This should be flagged and fixed
+				}"
+			`);
 		},
 	},
 ];
